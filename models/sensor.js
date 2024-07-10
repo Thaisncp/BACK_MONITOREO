@@ -5,7 +5,6 @@ module.exports = (sequelize, DataTypes) => {
         nombre: { type: DataTypes.STRING(150), defaultValue: "NO_DATA" },
         ubicacion: { type: DataTypes.STRING(255), defaultValue: "NO_DATA" },
         tipo_sensor: { type: DataTypes.ENUM('TEMPERATURA', 'HUMEDAD', 'CO2'), defaultValue: "TEMPERATURA" },
-        ip: { type: DataTypes.STRING(50), defaultValue: "NO_DATA" },
         external_id: { type: DataTypes.UUID, defaultValue: DataTypes.UUIDV4 },
         estado: { type: DataTypes.BOOLEAN, defaultValue: true },
 

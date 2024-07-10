@@ -11,6 +11,8 @@ const CuentaController = require('../controls/CuentaController');
 var cuentaController = new CuentaController();
 const EventoController = require('../controls/EventoController');
 var eventoController = new EventoController();
+const DatosController = require('../controls/DatosController');
+var datosController = new DatosController();
 
 /* GET users listing. */
 router.get('/', function (req, res, next) {
@@ -71,6 +73,8 @@ router.post('/persona/modificar', personaController.modificar);
 router.get('/persona/listar', personaController.listar);
 router.get('/persona/aceptado', personaController.listarAceptado);
 router.get('/persona/espera', personaController.listarEspera);
+router.get('/persona/rechazado', personaController.listarRechazado);
+router.get('/persona/obtener/:external', personaController.obtener);
 /*CUENTA CONTROLLER */
 router.post('/cuenta/sesion', [
   body('correo', 'Ingrese un correo').trim().exists().not().isEmpty().isEmail(),
@@ -80,7 +84,12 @@ router.post('/cuenta/modificar_estado', cuentaController.modificar_estado);
 /*EVENTO CONTROLLER */
 router.get('/evento/listar', eventoController.listar);
 router.post('/evento/guardar', eventoController.guardar);
-
-
-
+/**DATOS CONTROLLER */
+router.get('/datos/temperaturaSemana', datosController.listarTemperaturaSemana);
+router.get('/datos/temperaturaDia', datosController.listarTemperaturaDia);
+router.get('/datos/humedadSemana', datosController.listarHumedadSemana);
+router.get('/datos/humedadDia', datosController.listarHumedadDia);
+router.get('/datos/co2Semana', datosController.listarCo2Semana);
+router.get('/datos/co2Dia', datosController.listarCo2Dia);
+router.get('/datos', datosController.listarDatos);
 module.exports = router;

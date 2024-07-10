@@ -1,9 +1,9 @@
 {
     "development":{
-        "username":"desarrollo",
-        "password":"desarrollo",
+        "username":"pisgrupo1",
+        "password":"Leotauro181100",
         "database": "monitoreo_pis",
-        "host":"127.0.0.1",
+        "host":"servergrupo1.mysql.database.azure.com",
         "dialect":"mysql",
         "operatorAliases":false
     }

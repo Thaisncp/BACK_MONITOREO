@@ -11,6 +11,24 @@ const nodemailer = require("nodemailer");
 
 class PersonaController {
     //LISTA TODO
+    async obtener(req, res) {
+        try {
+            const listar = await persona.findOne({
+                attributes: ['apellidos', 'nombres', 'external_id', 'fecha_nacimiento', 'ocupacion', 'institucion', 'telefono'],
+                include: [
+                    { model: cuenta, as: 'cuenta', attributes: ['external_id', 'correo', 'estado'] },
+                    { model: models.rol, as: 'rol', attributes: ['nombre'] }
+                ],
+                where: { external_id: req.params.external } // Utiliza req.params.external para obtener el external desde la URL
+            });
+            
+            res.json({ msg: 'OK!', code: 200, info: listar });
+        } catch (error) {
+            console.error('Error al obtener el perfil de usuario:', error);
+            res.status(500).json({ msg: 'Error al obtener el perfil de usuario', code: 500 });
+        }
+    }
+    
     async listar(req, res) {
         var listar = await persona.findAll({
             attributes: ['apellidos', 'nombres', 'external_id', 'fecha_nacimiento', 'ocupacion', 'institucion', 'telefono'],
@@ -54,6 +72,27 @@ class PersonaController {
                 ],
                 where: {
                     '$cuenta.estado$': 'ACEPTADO',
+                    '$rol.nombre$': 'USUARIO'
+                }
+            });
+
+            res.json({ msg: 'OK!', code: 200, info: listar });
+        } catch (error) {
+            console.error('Error al listar personas en espera:', error);
+            res.status(500).json({ msg: 'Error interno del servidor', code: 500 });
+        }
+    }
+
+    async listarRechazado(req, res) {
+        try {
+            var listar = await persona.findAll({
+                attributes: ['apellidos', 'nombres', 'external_id', 'fecha_nacimiento', 'ocupacion', 'institucion', 'telefono'],
+                include: [
+                    { model: cuenta, as: 'cuenta', attributes: ['external_id', 'correo', 'estado'] },
+                    { model: models.rol, as: 'rol', attributes: ['nombre'] }
+                ],
+                where: {
+                    '$cuenta.estado$': 'RECHAZADO',
                     '$rol.nombre$': 'USUARIO'
                 }
             });
@@ -211,7 +250,7 @@ class PersonaController {
                 return;
             }
 
-            var rolAux = await rol.findOne({ where: { external_id: '441cddcc-ad6e-4f42-b80f-6f633e130655' } });
+            var rolAux = await rol.findOne({ where: { external_id: 'f384b5c3-9d40-485f-82dd-4a2e7a36b451' } });
 
             const data = {
                 nombres: req.body.nombres,
